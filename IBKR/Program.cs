@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using IBApi;
 
@@ -10,6 +12,11 @@ namespace IBKR
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            string[] symbols = { "EUR", "GBP", "CAD", "CHF", "AUD"};
+            List<string> symbolList = new List<string>();
+            foreach (string a in symbols)
+                Console.WriteLine(a);
             
 
             Samples.EWrapperImpl ibClient = new Samples.EWrapperImpl();
@@ -30,8 +37,16 @@ namespace IBKR
 
             while (ibClient.NextOrderId <= 0) { }
 
+           
+
+            List<Contract> contractList = new List<Contract>();
+
+
+
+
+
             Contract contract = new Contract();
-            contract.Symbol = "CHF";
+            contract.Symbol = "AUD";
             contract.SecType = "CASH";
             contract.Exchange = "IDEALPRO";
             contract.Currency = "USD";
@@ -74,6 +89,16 @@ namespace IBKR
 
             // Disconnect from TWS
             ibClient.ClientSocket.eDisconnect();
+
+
+            TcpListener server = new TcpListener(IPAddress.Parse("127.0.0.1"), 80);
+
+            server.Start();
+            Console.WriteLine("Server has started on 127.0.0.1:80.{0}Waiting for a connection...", Environment.NewLine);
+
+            TcpClient client = server.AcceptTcpClient();
+
+            Console.WriteLine("A client connected.");
 
         }
     }
