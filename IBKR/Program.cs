@@ -21,7 +21,9 @@ namespace IBKR
 
             Samples.EWrapperImpl ibClient = new Samples.EWrapperImpl();
 
-            ibClient.ClientSocket.eConnect("8.218.39.58", 7496, 0);
+            ibClient.ClientSocket.eConnect("8.218.39.58", 7496, 2);
+
+            /* ibClient.ClientSocket.eConnect("127.0.0.1", 7496, 0);*/
 
             var reader = new EReader(ibClient.ClientSocket, ibClient.Signal);
             reader.Start();
@@ -45,10 +47,16 @@ namespace IBKR
 
 
 
-            Contract contract = new Contract();
-            contract.Symbol = "AUD";
+           /* Contract contract = new Contract();
+            contract.Symbol = "CHF";
             contract.SecType = "CASH";
             contract.Exchange = "IDEALPRO";
+            contract.Currency = "USD";*/
+
+            Contract contract = new Contract();
+            contract.Symbol = "XAUUSD";
+            contract.SecType = "CMDTY";
+            contract.Exchange = "smart";
             contract.Currency = "USD";
 
 
